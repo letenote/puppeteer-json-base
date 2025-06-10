@@ -10,7 +10,7 @@ const readFilesRecursively = async (directory) => {
     const stat = await fs.promises.stat(itemPath);
 
     if (stat.isDirectory()) {
-      results = results.concat(await readFilesRecursively(itemPath)); // Recursively call for subdirectories
+      results = results.concat(await readFilesRecursively(itemPath));
     } else {
       results.push(itemPath);
     }
@@ -41,8 +41,18 @@ export const getPath = (filePath) => {
   };
 };
 
+const getEventName = () => process.env["npm_lifecycle_event"] || "";
+const isDevMode = () => {
+  switch (getEventName()) {
+    case "dev":
+      return true;
+    default:
+      return false;
+  }
+};
+
 export const getScriptInformation = async () => {
-  const getEvent = process.env["npm_lifecycle_event"] || "";
+  const getEvent = getEventName();
   const _event = getEvent.split(":");
   return {
     tribe: "",
@@ -51,11 +61,10 @@ export const getScriptInformation = async () => {
   };
 };
 
-export const readFiles = async () => {
+export const readFiles = async (source = { dev: "", all: "" }) => {
   try {
-    const folderPath = "./scenario";
-    const allFiles = await readFilesRecursively(folderPath);
-
+    if (isDevMode()) return [source.dev];
+    const allFiles = await readFilesRecursively(source.all);
     return allFiles;
   } catch (err) {
     console.error("Error reading directory:", err);

@@ -1,0 +1,23 @@
+{
+  "name": "login failed invalid empty form",
+  "scenario": [
+    {
+      "action": "goto",
+      "props": {
+        "url": "@portal-pmn-prod"
+      }
+    },
+    {
+      "action": "click",
+      "props": {
+        "selector": "[id='button::login::-::login']"
+      }
+    },
+    {
+      "action": "screenshot"
+    },
+    {
+      "action": "done"
+    }
+  ]
+}

@@ -4,10 +4,11 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf output",
-    "test:noheadless": "node main",
-    "test:headless": "node main",
+    "test:noheadless": "node index",
+    "test:headless": "node index",
     "start:noheadless": "npm run clean && npm run test:noheadless",
-    "start:headless": "npm run clean && npm run test:headless"
+    "start:headless": "npm run clean && npm run test:headless",
+    "dev": "node index"
   },
   "type": "module",
   "keywords": [],

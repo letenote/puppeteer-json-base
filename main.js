@@ -2,10 +2,14 @@ import { readFiles, getPath } from "./core/readFiles/index.js";
 import { core } from "./core/index.js";
 import fs from "fs";
 
-const main = async () => {
+export const main = async ({ source }) => {
   try {
-    const allFiles = await readFiles();
-    for await (let file of allFiles) {
+    let counter = 0;
+    const allFiles = await readFiles(source);
+    console.info("===== 🔥🔥 START:ALL:SCENARIO:TEST 🔥🔥 =====", "\n");
+
+    for await (let [fileIndex, file] of allFiles.entries()) {
+      counter = fileIndex + 1;
       const getFile = await fs.promises.readFile(file, "utf8");
       const getOutputPath = getPath(file);
       await fs.promises.mkdir(`./${getOutputPath.outputDir}`, {
@@ -15,11 +19,10 @@ const main = async () => {
         json: JSON.parse(getFile),
         inputDir: getOutputPath.inputDir,
         outputDir: getOutputPath.outputDir,
+        isLastJob: counter === allFiles.length,
       });
     }
   } catch (err) {
     console.error("Error test:", err);
   }
 };
-
-main();

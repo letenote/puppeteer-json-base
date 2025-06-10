@@ -3,11 +3,22 @@ import { getScriptInformation } from "./readFiles/index.js";
 import { actions } from "./actions/index.js";
 import { getUrlByTribeName } from "../env/index.js";
 
-export const core = async ({ json, inputDir, outputDir }) => {
+export const core = async ({
+  json,
+  inputDir,
+  outputDir,
+  isLastJob = false,
+}) => {
   const getInfo = await getScriptInformation();
   const browser = await puppeteer.launch({
     headless: getInfo.headless,
     devtools: getInfo.devtools,
+  });
+  const page = await browser.newPage();
+  await page.setViewport({
+    width: 1280,
+    height: 720,
+    deviceScaleFactor: 1,
   });
 
   console.info("===== ✨ SCENARIO:TEST ✨ =====");
@@ -16,8 +27,6 @@ export const core = async ({ json, inputDir, outputDir }) => {
   console.info("Output:", outputDir);
 
   for await (let scenario of Object.keys(json)) {
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1280, height: 720, deviceScaleFactor: 1 });
     let scenarioName = json.name;
     if (scenario === "scenario") {
       console.info("===== ✨ ACTION ✨ =======");
@@ -48,4 +57,7 @@ export const core = async ({ json, inputDir, outputDir }) => {
   }
   await browser.close();
   console.info("\n");
+  if (isLastJob) {
+    console.info("===== 🔥🔥 FINISH:ALL:SCENARIO:TEST 🔥🔥 =====", "\n");
+  }
 };
