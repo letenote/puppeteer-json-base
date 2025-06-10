@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node main"
+    "clean": "rm -rf output",
+    "test:noheadless": "node main",
+    "test:headless": "node main",
+    "start:noheadless": "npm run clean && npm run test:noheadless",
+    "start:headless": "npm run clean && npm run test:headless"
   },
   "type": "module",
   "keywords": [],

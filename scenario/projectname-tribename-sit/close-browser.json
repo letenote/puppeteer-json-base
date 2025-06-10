@@ -1,0 +1,17 @@
+{
+  "name": "close browser google",
+  "scenario": [
+    {
+      "action": "goto",
+      "props": {
+        "url": "@projectname-tribename-sit"
+      }
+    },
+    {
+      "action": "screenshot"
+    },
+    {
+      "action": "done"
+    }
+  ]
+}

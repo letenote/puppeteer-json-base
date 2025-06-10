@@ -1,0 +1,17 @@
+{
+  "name": "close browser instagram",
+  "scenario": [
+    {
+      "action": "goto",
+      "props": {
+        "url": "@projectname-tribename-uat"
+      }
+    },
+    {
+      "action": "screenshot"
+    },
+    {
+      "action": "done"
+    }
+  ]
+}
