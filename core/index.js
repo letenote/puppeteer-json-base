@@ -38,7 +38,6 @@ export const core = async ({
         console.info(
           "✅",
           `${scenarioIndex + 1}.`,
-          // scenario.action,
           logByAction({
             scenarioName,
             action: scenario.action,

@@ -11,15 +11,11 @@ export const actions = async ({
   scenarioName = "",
   outputDir = "",
   action = "",
-  props = {
-    url: "",
-    selector: "",
-    value: "",
-  },
-}) => {
+  props: { url = "", selector = "", value = "" } = {},
+} = {}) => {
   switch (action) {
     case ACTION.GOTO:
-      await page.goto(props.url);
+      await page.goto(url);
       return Promise.resolve();
     case ACTION.SCREENSHOT:
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -27,13 +23,13 @@ export const actions = async ({
         path: `./${outputDir}/${Slugify(scenarioName)}.png`,
       });
       return Promise.resolve();
-    case ACTION.TYPING:
-      await page.waitForSelector(props.selector);
-      await page.type(props.selector, props.value, { delay: 100 });
+    case ACTION.TYPE:
+      await page.waitForSelector(selector);
+      await page.type(selector, value, { delay: 100 });
       return Promise.resolve();
     case ACTION.CLICK:
-      await page.waitForSelector(props.selector);
-      await page.click(props.selector);
+      await page.waitForSelector(selector);
+      await page.click(selector);
       return Promise.resolve();
     default:
       return Promise.resolve();
@@ -43,10 +39,10 @@ export const actions = async ({
 export const logByAction = ({
   scenarioName = "",
   action = "",
-  props = { label: "", value: "" },
+  props: { label = "???", value = "" } = {},
   url = "",
   outputDir = "",
-}) => {
+} = {}) => {
   switch (action) {
     case ACTION.GOTO:
       return `${ACTION.GOTO} => ${url}`;
@@ -54,12 +50,10 @@ export const logByAction = ({
       return `${ACTION.SCREENSHOT} => output-dir => './${outputDir}/${Slugify(
         scenarioName
       )}.png'`;
-    case ACTION.TYPING:
-      return `typing ${props.label !== "" && "=> " + props.label} => ${
-        props.value
-      }`;
+    case ACTION.TYPE:
+      return `${ACTION.TYPE} ${label !== "" && "=> " + label} => ${value}`;
     case ACTION.CLICK:
-      return `${ACTION.CLICK} ${props.label !== "" && "=> " + props.label}`;
+      return `${ACTION.CLICK} ${label !== "" ? "=> " : ""} ${label}`;
     case ACTION.DONE:
       return `done 😎`;
     default:

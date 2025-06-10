@@ -24,6 +24,6 @@ export const main = async ({ source }) => {
     }
     console.info("===== 🔥🔥 END:ALL:SCENARIO:TEST 🔥🔥 =====", "\n");
   } catch (err) {
-    console.error("Error test:", err);
+    console.error("Error Scenario:", err);
   }
 };

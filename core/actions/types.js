@@ -1,7 +1,7 @@
 export const ACTION = Object.freeze({
   GOTO: "goto",
   SCREENSHOT: "screenshot",
-  TYPING: "type",
+  TYPE: "type",
   CLICK: "click",
   DONE: "done",
 });
