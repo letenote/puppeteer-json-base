@@ -31,6 +31,7 @@ export const core = async ({
 
   for await (let scenario of Object.keys(json)) {
     let scenarioName = json.name;
+    scenario === "name" && console.info(`Expect: ${json?.["expect"] || "??"}`);
     if (scenario === "scenario") {
       console.info("===== ✨ ACTION ✨ =======");
       for await (const [scenarioIndex, scenario] of json.scenario.entries()) {

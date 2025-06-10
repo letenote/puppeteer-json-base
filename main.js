@@ -8,6 +8,7 @@ export const main = async ({ source }) => {
     const allFiles = await readFiles(source);
     console.info("===== 🔥🔥 START:ALL:SCENARIO:TEST 🔥🔥 =====", "\n");
     for await (let [fileIndex, file] of allFiles.entries()) {
+      if (!file.includes(".json")) return;
       counter = fileIndex + 1;
       const getFile = await fs.promises.readFile(file, "utf8");
       const getOutputPath = getPath(file);
