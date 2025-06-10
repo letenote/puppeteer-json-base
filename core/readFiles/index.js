@@ -63,8 +63,10 @@ export const getScriptInformation = async () => {
 
 export const readFiles = async (source = { dev: "", all: "" }) => {
   try {
-    if (isDevMode()) return [source.dev];
-    const allFiles = await readFilesRecursively(source.all);
+    if (isDevMode() && !source.dev.includes("./")) return [source.dev];
+    const allFiles = await readFilesRecursively(
+      isDevMode() ? source.dev : source.all
+    );
     return allFiles;
   } catch (err) {
     console.error("Error reading directory:", err);
