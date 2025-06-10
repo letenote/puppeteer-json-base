@@ -1,12 +1,14 @@
 import puppeteer from "puppeteer";
 import { getScriptInformation } from "./readFiles/index.js";
-import { actions } from "./actions/index.js";
+import { actions, logByAction } from "./actions/index.js";
 import { getUrlByTribeName } from "../env/index.js";
+import { DateTime } from "./helpers/dateTime.js";
 
 export const core = async ({
   json,
-  inputDir,
-  outputDir,
+  inputDir = "",
+  outputDir = "",
+  fileDir = "",
   isLastJob = false,
 }) => {
   const getInfo = await getScriptInformation();
@@ -22,9 +24,10 @@ export const core = async ({
   });
 
   console.info("===== ✨ SCENARIO:TEST ✨ =====");
-  console.info("Name:", json.name);
-  console.info("Source:", inputDir);
-  console.info("Output:", outputDir);
+  console.info(`Name: ${json.name}`);
+  console.info(`Date: ${DateTime.format(new Date())}`);
+  console.info(`Source: './${fileDir}'`);
+  console.info(`Output: './${outputDir}'`);
 
   for await (let scenario of Object.keys(json)) {
     let scenarioName = json.name;
@@ -35,12 +38,14 @@ export const core = async ({
         console.info(
           "✅",
           `${scenarioIndex + 1}.`,
-          scenario.action,
-          scenario.action === "goto"
-            ? `=> ${getUrl}`
-            : scenario.action === "type"
-            ? `=> ${scenario.props.value}`
-            : ""
+          // scenario.action,
+          logByAction({
+            scenarioName,
+            action: scenario.action,
+            props: scenario.props,
+            url: getUrl,
+            outputDir,
+          })
         );
         await actions({
           page,
@@ -57,7 +62,4 @@ export const core = async ({
   }
   await browser.close();
   console.info("\n");
-  if (isLastJob) {
-    console.info("===== 🔥🔥 FINISH:ALL:SCENARIO:TEST 🔥🔥 =====", "\n");
-  }
 };

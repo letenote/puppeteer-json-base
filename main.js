@@ -7,7 +7,6 @@ export const main = async ({ source }) => {
     let counter = 0;
     const allFiles = await readFiles(source);
     console.info("===== 🔥🔥 START:ALL:SCENARIO:TEST 🔥🔥 =====", "\n");
-
     for await (let [fileIndex, file] of allFiles.entries()) {
       counter = fileIndex + 1;
       const getFile = await fs.promises.readFile(file, "utf8");
@@ -20,8 +19,10 @@ export const main = async ({ source }) => {
         inputDir: getOutputPath.inputDir,
         outputDir: getOutputPath.outputDir,
         isLastJob: counter === allFiles.length,
+        fileDir: file,
       });
     }
+    console.info("===== 🔥🔥 END:ALL:SCENARIO:TEST 🔥🔥 =====", "\n");
   } catch (err) {
     console.error("Error test:", err);
   }
