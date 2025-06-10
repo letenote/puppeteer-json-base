@@ -1,0 +1,16 @@
+{
+  "name": "puppeteer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node main"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Dimas Maulana Putra",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "puppeteer": "^24.10.0"
+  }
+}
