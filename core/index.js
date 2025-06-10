@@ -27,7 +27,11 @@ export const core = async ({ json, inputDir, outputDir }) => {
           "✅",
           `${scenarioIndex + 1}.`,
           scenario.action,
-          scenario.action === "goto" ? `=> ${getUrl}` : ""
+          scenario.action === "goto"
+            ? `=> ${getUrl}`
+            : scenario.action === "type"
+            ? `=> ${scenario.props.value}`
+            : ""
         );
         await actions({
           page,
