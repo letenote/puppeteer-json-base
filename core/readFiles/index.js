@@ -27,8 +27,9 @@ const readHeadless = (val) => {
   }
 };
 
-export const getPath = (filePath) => {
-  const parts = filePath.split("/");
+export const getPath = (filePath = "") => {
+  const filePathClean = filePath.replaceAll("\\", "/");
+  const parts = filePathClean.split("/");
   parts.pop();
   const pathMapping = {
     inputDir: JSON.parse(JSON.stringify(parts)),
@@ -71,5 +72,16 @@ export const readFiles = async (source = { dev: "", all: "" }) => {
     return allFiles;
   } catch (err) {
     console.error("Error reading directory:", err);
+  }
+};
+
+export const getFileNameByFileDir = (fileDir = "") => {
+  try {
+    const fileDirClean = fileDir.replaceAll("\\", "/");
+    const fileDirSplit = fileDirClean.split("/");
+    const fileName = fileDirSplit[fileDirSplit.length - 1].replace(".json", "");
+    return fileName;
+  } catch (error) {
+    console.error("Error Get Filename:", error);
   }
 };
